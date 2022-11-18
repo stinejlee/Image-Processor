@@ -1,0 +1,64 @@
+# Our application supports the following commandlines
+
+-file [name-of-script.txt]
+# Ex)
+# This commandline must be used before any others, and before interactive entry of 
+# script commands
+	-file res/testing.txt
+	-file res/script.txt
+
+-load [image-path] [image-name]
+# Ex)
+# An image must be loaded first using -load command before any other command lines 
+# can be used because there must be an [image-name] stored to be saved.
+# It supports loading 4 file formats ppm, jpg, bmp, and png
+	-load res/testing.ppm ppm
+	-load res/testing.jpg jpg
+	-load res/testing.bmp bmp
+	-load res/testing.png png
+-(red-component, green-component, blue-component, value-component, intensity-component, luma-component) [image-name] [dest-image-name]
+# Ex)
+# It supports applying color filter function objects
+	-red-component ppm redPPM
+	-green-component ppm greenPPM
+	-blue-component ppm bluePPM
+	-value-component ppm valuePPM
+	-intensity-component ppm intensityPPM
+	-luma-component ppm lumaPPM
+# It supports overwriting other [image-name], redPPM will now hold the result of the
+# -luma-component command line rather than the original -red-component command line
+	-luma-component ppm redPPM
+-(horizontal-flip, vertical-flip) [image-name] [dest-image-name]
+# Ex)
+# It supports regular command function objects
+	-horizontal-flip ppm horizontalPPM
+	-vertical-flip ppm verticalPPM
+-brighten [increment] [image-name] [dest-image-name]
+# Ex)
+# It supports regular command function objects
+# It supports both positive and negative brighten values
+	-brighten 50 ppm brightPPM
+	-brighten -50 ppm dullPPM
+-blur [image-name] [dest-image-name]
+# Ex)
+# It supports applying regular filter function objects
+	-blur ppm blurPPM
+-sharpen [image-name] [dest-image-name]
+# Ex)
+# It supports applying regular filter function objects
+	-sharpen ppm sharpenPPM
+-sepia [image-name] [dest-image-name]
+# Ex)
+# It supports applying color filter function objects
+	-sepia ppm sepiaPPM
+-save [image-path] [image-name]
+# Ex)
+# It supports saving 4 file formats ppm, jpg, bmp, and png
+	-save res/newTesting.ppm ppm
+	-save res/newTesting.jpg jpg
+	-save res/newTesting.bmp bmp
+	-save res/newTesting.png png
+# It supports saving to different file formats
+	-save res/newTesting.png ppm
+# It supports saving after other command lines
+	-save res/sepiaPPM.ppm sepiaPPM

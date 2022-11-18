@@ -1,0 +1,3 @@
+-load res/testing.ppm test
+-brighten -100 test darktest
+-save res/darkTest.ppm darktest

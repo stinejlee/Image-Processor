@@ -1,0 +1,23 @@
+-load res/testing.ppm ppm
+-load res/testing.jpg jpg
+-load res/testing.bmp bmp
+-load res/testing.png png
+-red-component ppm redPPM
+-green-component ppm greenPPM
+-blue-component ppm bluePPM
+-value-component ppm valuePPM
+-intensity-component ppm intensityPPM
+-luma-component ppm lumaPPM
+-horizontal-flip ppm horizontalPPM
+-vertical-flip ppm verticalPPM
+-brighten 50 ppm brightPPM
+-brighten -50 ppm dullPPM
+-blur ppm blurPPM
+-sharpen ppm sharpenPPM
+-sepia ppm sepiaPPM
+-save res/newTesting.ppm ppm
+-save res/newTesting.jpg jpg
+-save res/newTesting.bmp bmp
+-save res/newTesting.png png
+-save res/newTesting.png ppm
+-save res/sepiaPPM.ppm sepiaPPM
