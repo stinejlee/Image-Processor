@@ -8,24 +8,10 @@ import controller.filters.AColorFilter;
 /**
  * Represents an Image that contains pixels and has dimensions.
  */
-public class Image {
+public class Image implements IImage {
   protected final int width;
   protected final int height;
   private final Pixel[][] pixels;
-
-  /**
-   * An enum that represents the type of greyscale filter being applied.
-   */
-  public enum GreyscaleType {
-    Red, Blue, Green, Value, Luma, Intensity
-  }
-
-  /**
-   * An enum that represents the type of flip filter being applies.
-   */
-  public enum FlipType {
-    Horizontal, Vertical
-  }
 
   /**
    * Constructor for the Image class, automatically calculates the dimensions based on given pixels.
@@ -40,6 +26,16 @@ public class Image {
     this.pixels = pixels;
     this.width = pixels[0].length;
     this.height = pixels.length;
+  }
+
+  @Override
+  public int getHeight() {
+    return this.pixels.length;
+  }
+
+  @Override
+  public int getWidth() {
+    return this.pixels[0].length;
   }
 
   // Method that outputs all pixels and values, for testing
@@ -57,29 +53,13 @@ public class Image {
     return ans.toString();
   }
 
-  protected Pixel getPixelAt(int row, int col) {
+  @Override
+  public Pixel getPixelAt(int row, int col) {
     return new Pixel(this.pixels[row][col].getRed(),
             this.pixels[row][col].getGreen(), this.pixels[row][col].getBlue());
   }
 
-  /**
-   * Sets the pixel at the given location as the given pixel.
-   *
-   * @param row the row location of the pixel.
-   * @param col the column location of the pixel.
-   * @param pix the new pixel being assigned.
-   */
-  protected void setPixelAt(int row, int col, Pixel pix) {
-    this.pixels[row][col] = pix;
-  }
-
-  /**
-   * Greyscales this image based on the given greyscale type.
-   *
-   * @param gsType the type of greyscale filter being applied.
-   * @return the new greyscaled image.
-   * @throws IllegalArgumentException if an invalid greyscale type is given.
-   */
+  @Override
   public Image greyScale(GreyscaleType gsType) throws IllegalArgumentException {
     Pixel[][] newPixels = new Pixel[this.height][this.width];
     for (int i = 0; i < this.height; i++) {
@@ -113,13 +93,7 @@ public class Image {
     return new Image(newPixels);
   }
 
-  /**
-   * Flips this image based on the given flip type.
-   *
-   * @param flipType the type of flip filter being applied.
-   * @return the new flipped image.
-   * @throws IllegalArgumentException if an invalid flip type is given.
-   */
+  @Override
   public Image flip(FlipType flipType) throws IllegalArgumentException {
     Pixel[][] newPixels = new Pixel[this.height][this.width];
     switch (flipType) {
@@ -143,13 +117,7 @@ public class Image {
     return new Image(newPixels);
   }
 
-  /**
-   * Brightens this image by the given increment.
-   *
-   * @param increment the increment by which the image is brightened or darkened.
-   *                  Positive increment brightens, negative increment darkens.
-   * @return the new brightened image.
-   */
+  @Override
   public Image brighten(int increment) {
     Pixel[][] newPixels = new Pixel[this.height][this.width];
     for (int i = 0; i < this.height; i++) {
@@ -163,12 +131,7 @@ public class Image {
     return new Image(newPixels);
   }
 
-  /**
-   * Applies the given IFilter this image.
-   *
-   * @param filter the IFilter that is being applied to this image.
-   * @return a new, filtered image.
-   */
+  @Override
   public Image applyFilter(IFilter filter) {
     int centerRow = filter.getHeight() / 2;
     int centerCol = filter.getWidth() / 2;
@@ -221,12 +184,7 @@ public class Image {
     return new Pixel(r, g, b);
   }
 
-  /**
-   * Applies the given color filter to this image.
-   *
-   * @param colorFilter the color transformation being applied
-   * @return a new Image that is the filtered version of this image.
-   */
+  @Override
   public Image applyColorFilter(AColorFilter colorFilter) {
     Pixel[][] newPixels = new Pixel[this.height][this.width];
     for (int i = 0; i < this.height; i++) {
