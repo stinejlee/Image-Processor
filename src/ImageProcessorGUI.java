@@ -8,4 +8,5 @@ public class ImageProcessorGUI {
     ImageProcessingModel model = new ImageProcessingModelImpl();
     ImageProcessingView view = new ImageProcessingGUIViewImpl();
   }
+  // Hello
 }
