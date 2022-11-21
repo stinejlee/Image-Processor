@@ -20,6 +20,7 @@ public class ImageProcessingControllerGUI implements ImageProcessingController, 
     }
     this.model = model;
     this.view = view;
+    this.view.setFeature(this);
   }
 
   @Override
@@ -39,26 +40,26 @@ public class ImageProcessingControllerGUI implements ImageProcessingController, 
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    case "Open file": {
-      final JFileChooser fchooser = new JFileChooser(".");
-      FileNameExtensionFilter filter = new FileNameExtensionFilter(
-              "JPG & GIF Images", "jpg", "gif");
-      fchooser.setFileFilter(filter);
-      int retvalue = fchooser.showOpenDialog(SwingFeaturesFrame.this);
-      if (retvalue == JFileChooser.APPROVE_OPTION) {
-        File f = fchooser.getSelectedFile();
-        fileOpenDisplay.setText(f.getAbsolutePath());
-      }
-    }
-    break;
-    case "Save file": {
-      final JFileChooser fchooser = new JFileChooser(".");
-      int retvalue = fchooser.showSaveDialog(SwingFeaturesFrame.this);
-      if (retvalue == JFileChooser.APPROVE_OPTION) {
-        File f = fchooser.getSelectedFile();
-        fileSaveDisplay.setText(f.getAbsolutePath());
-      }
-    }
-    break;
+//    case "Open file": {
+//      final JFileChooser fchooser = new JFileChooser(".");
+//      FileNameExtensionFilter filter = new FileNameExtensionFilter(
+//              "JPG & GIF Images", "jpg", "gif");
+//      fchooser.setFileFilter(filter);
+//      int retvalue = fchooser.showOpenDialog(SwingFeaturesFrame.this);
+//      if (retvalue == JFileChooser.APPROVE_OPTION) {
+//        File f = fchooser.getSelectedFile();
+//        fileOpenDisplay.setText(f.getAbsolutePath());
+//      }
+//    }
+//    break;
+//    case "Save file": {
+//      final JFileChooser fchooser = new JFileChooser(".");
+//      int retvalue = fchooser.showSaveDialog(SwingFeaturesFrame.this);
+//      if (retvalue == JFileChooser.APPROVE_OPTION) {
+//        File f = fchooser.getSelectedFile();
+//        fileSaveDisplay.setText(f.getAbsolutePath());
+//      }
+//    }
+//    break;
   }
 }

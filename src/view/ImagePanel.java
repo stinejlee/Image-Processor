@@ -32,7 +32,7 @@ public class ImagePanel extends JPanel {
       imageLabel[i] = new JLabel();
       imageScrollPane[i] = new JScrollPane(imageLabel[i]);
       imageLabel[i].setIcon(new ImageIcon(images[i]));
-      imageScrollPane[i].setPreferredSize(new Dimension(100, 600));
+      imageScrollPane[i].setPreferredSize(new Dimension(200, 300));
       imagePanel.add(imageScrollPane[i]);
     }
   }
