@@ -12,6 +12,7 @@ public class ImagePanel extends JPanel {
 
   private ImageProcessingModelState modelState;
   private IImage image;
+  
   private JPanel mainPanel;
 
   public ImagePanel() {
