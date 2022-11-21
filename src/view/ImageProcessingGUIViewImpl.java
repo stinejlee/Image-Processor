@@ -26,12 +26,13 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   private JButton save;
   private JList<String> listOfStrings;
   private JList<Integer> listOfIntegers;
-  private JScrollPane scrollPane;
   private JPanel commandPanel;
   private JPanel redHistPanel;
   private JPanel greenHistPanel;
   private JPanel blueHistPanel;
   private JPanel intensityHistPanel;
+  private JPanel loadPanel;
+  private JPanel savePanel;
 
   String currentImage;
 
@@ -44,22 +45,52 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     this.setLayout(new GridLayout(2, 3));
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    imagePanel = new JPanel();
-    imagePanel.setBackground(Color.lightGray);
-    this.imagePanel.setBorder(BorderFactory.createTitledBorder("Image"));
-    this.imagePanel.setLayout(new GridLayout(1,0, 10, 10));
-    imagePanel.setVisible(true);
+    this.imagePanel = new ImagePanel();
     this.add(imagePanel);
 
-    JLabel imageLabel = new JLabel();
-    scrollPane = new JScrollPane(imageLabel);
-    imageLabel.setIcon(new ImageIcon("res/sailor.jpg")); // ignore this image i needed to make sure it scrolled
-    scrollPane.setPreferredSize(new Dimension(100, 100));
-    imagePanel.add(scrollPane);
+    // Area for ioCommands
+    buttonPanel = new JPanel();
+    buttonPanel.setLayout(new FlowLayout());
+    this.add(buttonPanel, BorderLayout.SOUTH);
 
+    // Area for ioCommands
+    loadPanel = new JPanel();
+    loadPanel.setLayout(new FlowLayout());
+    this.add(buttonPanel);
     load = new JButton("load");
     load.setVisible(true);
-    this.add(load);
+    loadPanel.add(load);
+    buttonPanel.add(loadPanel);
+
+    savePanel = new JPanel();
+    savePanel.setLayout(new FlowLayout());
+    this.add(buttonPanel);
+    save = new JButton("save");
+    save.setVisible(true);
+    savePanel.add(save);
+    buttonPanel.add(save);
+
+//    //file open
+//    JPanel fileopenPanel = new JPanel();
+//    fileopenPanel.setLayout(new FlowLayout());
+//    dialogBoxesPanel.add(fileopenPanel);
+//    JButton fileOpenButton = new JButton("Open a file");
+//    fileOpenButton.setActionCommand("Open file");
+//    fileOpenButton.addActionListener(this);
+//    fileopenPanel.add(fileOpenButton);
+//    fileOpenDisplay = new JLabel("File path will appear here");
+//    fileopenPanel.add(fileOpenDisplay);
+//
+//    //file save
+//    JPanel filesavePanel = new JPanel();
+//    filesavePanel.setLayout(new FlowLayout());
+//    dialogBoxesPanel.add(filesavePanel);
+//    JButton fileSaveButton = new JButton("Save a file");
+//    fileSaveButton.setActionCommand("Save file");
+//    fileSaveButton.addActionListener(this);
+//    filesavePanel.add(fileSaveButton);
+//    fileSaveDisplay = new JLabel("File path will appear here");
+//    filesavePanel.add(fileSaveDisplay);
 
 
 //    // Area for ImageProcessingCommands
@@ -93,36 +124,10 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 //    listOfIntegers.addListSelectionListener(this);
 //    selectionListPanel.add(new JScrollPane(listOfIntegers));
 //
-//    // Area for ioCommands
-//    buttonPanel = new JPanel();
-//    buttonPanel.setLayout(new FlowLayout());
-//    this.add(buttonPanel, BorderLayout.SOUTH);
 //
 //    //input textfield
 //    input = new JTextField(15);
 //    buttonPanel.add(input);
-//
-//    //file open
-//    JPanel fileopenPanel = new JPanel();
-//    fileopenPanel.setLayout(new FlowLayout());
-//    dialogBoxesPanel.add(fileopenPanel);
-//    JButton fileOpenButton = new JButton("Open a file");
-//    fileOpenButton.setActionCommand("Open file");
-//    fileOpenButton.addActionListener(this);
-//    fileopenPanel.add(fileOpenButton);
-//    fileOpenDisplay = new JLabel("File path will appear here");
-//    fileopenPanel.add(fileOpenDisplay);
-//
-//    //file save
-//    JPanel filesavePanel = new JPanel();
-//    filesavePanel.setLayout(new FlowLayout());
-//    dialogBoxesPanel.add(filesavePanel);
-//    JButton fileSaveButton = new JButton("Save a file");
-//    fileSaveButton.setActionCommand("Save file");
-//    fileSaveButton.addActionListener(this);
-//    filesavePanel.add(fileSaveButton);
-//    fileSaveDisplay = new JLabel("File path will appear here");
-//    filesavePanel.add(fileSaveDisplay);
 
     this.setVisible(true);
   }
