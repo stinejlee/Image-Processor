@@ -1,5 +1,8 @@
 package view;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 
 import model.IImage;
@@ -7,7 +10,7 @@ import model.Pixel;
 
 public class RedHistogramPanel extends JPanel {
   private int[] valueCounts;
-  private IImage image;
+  private BufferedImage image;
 
   public RedHistogramPanel() {
     super();
@@ -17,8 +20,8 @@ public class RedHistogramPanel extends JPanel {
 
     for (int i = 0; i < image.getHeight(); i++) {
       for (int j = 0; j < image.getWidth(); j++) {
-        Pixel pix = this.image.getPixelAt(i, j);
-        int red = pix.getRed();
+        Color pixel = new Color(this.image.getRGB(j, i));
+        int red = pixel.getRed();
         valueCounts[red]++;
       }
     }
@@ -26,5 +29,11 @@ public class RedHistogramPanel extends JPanel {
     for (int i = 0; i < valueCounts.length; i++) {
       valueCounts[i] = valueCounts[i] / totalPixels;
     }
+  }
+
+  @Override
+  public void paintComponent(Graphics g) {
+    super.paintComponent(g);
+
   }
 }
