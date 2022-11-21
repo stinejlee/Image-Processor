@@ -30,12 +30,11 @@ import view.ImageProcessingView;
  */
 public class ImageProcessingControllerImpl implements ImageProcessingController {
   private final Readable input;
-
   private final ImageProcessingView view;
   private ImageProcessingModel model;
 
   /**
-   * The constructor for an ImageProcessingControllerImpl.
+   * The constructor for an ImageProcessingControllerImpl input script or interactive inputs.
    *
    * @param model the model to be processed.
    * @param view  the view to be
