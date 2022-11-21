@@ -63,7 +63,9 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 
     // Area for ioCommands
     buttonPanel = new JPanel();
-    buttonPanel.setLayout(new FlowLayout());
+    buttonPanel.setPreferredSize(new Dimension(200, 300));
+    buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
+    buttonPanel.setLayout(new BorderLayout());
     this.add(buttonPanel);
 
     // Area for first two histograms
@@ -79,18 +81,17 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     // Area for ioCommands
     loadPanel = new JPanel();
     loadPanel.setLayout(new FlowLayout());
-    this.add(buttonPanel);
     load = new JButton("Load");
     load.setVisible(true);
     loadPanel.add(load);
-    buttonPanel.add(loadPanel);
+    buttonPanel.add(loadPanel, BorderLayout.WEST);
 
     savePanel = new JPanel();
     savePanel.setLayout(new FlowLayout());
     save = new JButton("Save");
     save.setVisible(true);
     savePanel.add(save);
-    buttonPanel.add(savePanel);
+    buttonPanel.add(savePanel, BorderLayout.EAST);
 
     JPanel comboBoxPanel = new JPanel();
     buttonPanel.add(comboBoxPanel);
@@ -106,14 +107,14 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     }
 
     comboBoxPanel.add(comboBox);
-    buttonPanel.add(comboBoxPanel);
+    buttonPanel.add(comboBoxPanel, BorderLayout.NORTH);
 
     applyPanel = new JPanel();
     applyPanel.setLayout(new FlowLayout());
     apply = new JButton("Apply");
     apply.setVisible(true);
     applyPanel.add(apply);
-    buttonPanel.add(applyPanel);
+    buttonPanel.add(applyPanel, BorderLayout.CENTER);
 
     int current = 0;
     int min = -255;
@@ -126,14 +127,14 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     valueSpinner = new JSpinner(valueModel);
     spinnerPanel.add(spinnerLabel);
     spinnerPanel.add(valueSpinner);
-    buttonPanel.add(spinnerPanel);
 
     applyBrightenPanel = new JPanel();
     applyBrightenPanel.setLayout(new FlowLayout());
     applyBrighten = new JButton("Apply");
     applyBrighten.setVisible(true);
-    applyBrightenPanel.add(applyBrighten);
-    buttonPanel.add(applyBrightenPanel);
+    spinnerPanel.add(applyBrighten);
+
+    buttonPanel.add(spinnerPanel, BorderLayout.SOUTH);
 
     this.addActionListener();
     this.setVisible(true);
@@ -167,7 +168,12 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   public void resetImagePanel() {
     System.out.println("testing");
     this.imagePanel.removeAll();
-    this.imagePanel.add(new ImagePanel(currentImage));
+    JLabel newLabel = new JLabel();
+    newLabel.setIcon(new ImageIcon(currentImage));
+    JScrollPane newScrollPane = new JScrollPane(newLabel);
+    newScrollPane.setBackground(Color.DARK_GRAY);
+    newScrollPane.setPreferredSize(new Dimension(100, 100));
+    this.imagePanel.add(newScrollPane);
     this.setVisible(false);
     this.repaint();
     this.setVisible(true);
