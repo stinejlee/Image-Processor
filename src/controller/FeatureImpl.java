@@ -1,6 +1,7 @@
 package controller;
 
-import java.text.Bidi;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import controller.filters.BlueGreyscaleFilter;
 import controller.filters.GaussianBlurFilter;
@@ -11,9 +12,16 @@ import controller.filters.RedGreyscaleFilter;
 import controller.filters.SepiaFilter;
 import controller.filters.SharpenFilter;
 import controller.imagecommands.Brighten;
+import controller.imagecommands.HorizontalFlip;
 import controller.imagecommands.ValueGreyscale;
+import controller.imagecommands.VerticalFlip;
+import model.IImage;
+import model.Image;
 import model.ImageProcessingModel;
+import model.ImageUtil;
 import view.ImageProcessingGUIView;
+
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class FeatureImpl implements Feature {
 
@@ -30,49 +38,96 @@ public class FeatureImpl implements Feature {
   }
   @Override
   public void load() {
+    System.out.println("test");
+    String filepath = this.view.loadImage();
 
+    Image image;
+    if (filepath.endsWith("ppm")) {
+      image = ImageUtil.readPPM(filepath);
+    }
+    else {
+      image = ImageUtil.readConventional(filepath);
+    }
+    this.model.addImage("test", image);
+
+    this.updateViewImage(image);
+  }
+
+  private void updateViewImage(IImage image) {
+    BufferedImage pic = new BufferedImage(image.getWidth(), image.getHeight(), TYPE_INT_RGB);
+
+    for (int i = 0; i < image.getHeight(); i++) {
+      for (int j = 0; j < image.getWidth(); j++) {
+        int r = image.getPixelAt(i, j).getRed();
+        int g = image.getPixelAt(i, j).getGreen();
+        int b = image.getPixelAt(i, j).getBlue();
+        Color color = new Color(r,g,b);
+        pic.setRGB(j,i, color.getRGB());
+      }
+    }
+
+    this.view.setCurrentImage(pic);
+    this.view.resetImagePanel();
   }
 
   @Override
   public void save() {
-
+    String filepath = this.view.saveImage();
+    if (filepath.endsWith("ppm")) {
+      ImageUtil.writePPM(filepath, this.model.getImage("test"));
+    }
+    else {
+      ImageUtil.writeConventional(filepath, this.model.getImage("test"),
+              filepath.substring(filepath.length() - 3));
+    }
   }
 
   @Override
   public void apply(String filter, int value) {
+    ICommand cmd;
     switch (filter) {
       case "Blur":
-        ICommand blur = new GaussianBlurFilter("test", "test");
+        cmd = new GaussianBlurFilter("test", "test");
         break;
       case "Sharpen":
-        ICommand sharpen = new SharpenFilter("test", "test");
+        cmd = new SharpenFilter("test", "test");
         break;
       case "Red Greyscale":
-        ICommand redGS = new RedGreyscaleFilter("test", "test");
+        cmd = new RedGreyscaleFilter("test", "test");
         break;
       case "Green Greyscale":
-        ICommand greenGS = new GreenGreyscaleFilter("test", "test");
+        cmd = new GreenGreyscaleFilter("test", "test");
         break;
       case "Blue Greyscale":
-        ICommand blueGS = new BlueGreyscaleFilter("test", "test");
+        cmd = new BlueGreyscaleFilter("test", "test");
         break;
       case "Intensity Greyscale":
-        ICommand intensityGS = new IntensityGreyscaleFilter("test", "test");
+        cmd = new IntensityGreyscaleFilter("test", "test");
         break;
       case "Value Greyscale":
-        ICommand valueGS = new ValueGreyscale("test", "test");
+        cmd = new ValueGreyscale("test", "test");
         break;
       case "Luma Greyscale":
-        ICommand lumaGS = new LumaGreyscaleFilter("test", "test");
+        cmd = new LumaGreyscaleFilter("test", "test");
         break;
       case "Sepia":
-        ICommand sepia = new SepiaFilter("test","test");
+        cmd = new SepiaFilter("test","test");
         break;
       case "Brighten":
-//        ICommand brighten = new Brighten(value, "test", "test");
+        cmd = new Brighten(Integer.toString(value), "test", "test");
+        break;
+      case "Horizontal Flip":
+        cmd = new HorizontalFlip("test", "test");
+        break;
+      case "Vertical Flip":
+        cmd = new VerticalFlip("test", "test");
         break;
       default:
         throw new IllegalArgumentException("Invalid filter.");
     }
+    cmd.execute(this.model);
+
+    this.updateViewImage(this.model.getImage("test"));
+
   }
 }
