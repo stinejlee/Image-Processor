@@ -1,3 +1,5 @@
+import controller.Feature;
+import controller.FeatureImpl;
 import controller.ImageProcessingController;
 import controller.ImageProcessingControllerGUI;
 import controller.ImageProcessingControllerImpl;
@@ -10,7 +12,8 @@ import view.ImageProcessingGUIViewImpl;
 public class ImageProcessorGUI {
   public static void main(String[] args) {
     ImageProcessingModel model = new ImageProcessingModelImpl();
-    ImageProcessingView view = new ImageProcessingGUIViewImpl(model);
+    Feature feature = new FeatureImpl();
+    ImageProcessingView view = new ImageProcessingGUIViewImpl(feature);
     ImageProcessingController controller = new ImageProcessingControllerGUI(model, view);
   }
 }
