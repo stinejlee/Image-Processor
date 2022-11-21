@@ -6,6 +6,6 @@ public interface Feature {
 
   void save();
 
-  void apply(String filter);
+  void apply(String filter, int value);
 
 }

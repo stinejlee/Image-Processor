@@ -38,23 +38,28 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   //the custom panel on which the board will be drawn
   private JPanel boardPanel;
 
-  public ImageProcessingGUIViewImpl(Feature feature) {
+  public ImageProcessingGUIViewImpl() {
     super("Image Processor");
-    this.feature = feature;
     this.setSize(1000, 1000);
     this.setLayout(new GridLayout(2, 3));
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    textPane = new JTextPane();
-    textPane.setPreferredSize(new Dimension(500, 500));
-    textPane.setVisible(true);
-//    scrollPane = new JScrollPane(imagePanel);
-    this.add(textPane);
+    imagePanel = new JPanel();
+    imagePanel.setBackground(Color.lightGray);
+    this.imagePanel.setBorder(BorderFactory.createTitledBorder("Image"));
+    this.imagePanel.setLayout(new GridLayout(1,0, 10, 10));
+    imagePanel.setVisible(true);
+    this.add(imagePanel);
+
+    JLabel imageLabel = new JLabel();
+    scrollPane = new JScrollPane(imageLabel);
+    imageLabel.setIcon(new ImageIcon("res/sailor.jpg")); // ignore this image i needed to make sure it scrolled
+    scrollPane.setPreferredSize(new Dimension(100, 100));
+    imagePanel.add(scrollPane);
 
     load = new JButton("load");
     load.setVisible(true);
     this.add(load);
-    load.addActionListener((event) -> System.out.println("hi"));
 
 
 //    // Area for ImageProcessingCommands
@@ -121,53 +126,61 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 
     this.setVisible(true);
   }
-  @Override
-  public void refresh() {
-    this.repaint();
+
+  public void addActionListener() {
+    load.addActionListener((event) -> feature.load()); // this is what each of our buttons will have, just w corresponding methods
   }
-
-  @Override
-  public void setCommandButtonListener(ActionListener actionEvent) {
-    execute.addActionListener(actionEvent);
-  }
-
-  @Override
-  public void setListSelectionListener(ListSelectionListener actionEvent) {
-    listOfStrings.addListSelectionListener(actionEvent);
-  }
-
-  @Override
-  public void paint(Graphics g) {
-    paintRedHistogram(g);
-    paintGreenHistogram(g);
-    paintBlueHistogram(g);
-    paintIntensityHistogram(g);
-  }
-
-  private void paintRedHistogram(Graphics g) {
-  }
-
-  private void paintGreenHistogram(Graphics g) {
-
-  }
-
-  private void paintBlueHistogram(Graphics g) {
-
-  }
-
-  private void paintIntensityHistogram(Graphics g) {
-
-  }
-
+//  @Override
+//  public void refresh() {
+//    this.repaint();
+//  }
+//
+//  @Override
+//  public void setCommandButtonListener(ActionListener actionEvent) {
+//    execute.addActionListener(actionEvent);
+//  }
+//
+//  @Override
+//  public void setListSelectionListener(ListSelectionListener actionEvent) {
+//    listOfStrings.addListSelectionListener(actionEvent);
+//  }
+//
+//  @Override
+//  public void paint(Graphics g) {
+//    paintRedHistogram(g);
+//    paintGreenHistogram(g);
+//    paintBlueHistogram(g);
+//    paintIntensityHistogram(g);
+//  }
+//
+//  private void paintRedHistogram(Graphics g) {
+//  }
+//
+//  private void paintGreenHistogram(Graphics g) {
+//
+//  }
+//
+//  private void paintBlueHistogram(Graphics g) {
+//
+//  }
+//
+//  private void paintIntensityHistogram(Graphics g) {
+//
+//  }
+//
   @Override
   public void writeMessage(String message) throws IOException {
     return;
   }
+//  @Override
+//  public void showErrorMessage(String error) {
+//    JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+//
+//  }
+
+
   @Override
-  public void showErrorMessage(String error) {
-    JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
-
+  public void setFeature(Feature feature) {
+    this.feature = feature;
   }
-
-
 }
