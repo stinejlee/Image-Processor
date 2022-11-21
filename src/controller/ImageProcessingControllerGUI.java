@@ -9,18 +9,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.ImageProcessingModel;
 import model.SaveType;
+import view.ImageProcessingGUIView;
 import view.ImageProcessingView;
 
 public class ImageProcessingControllerGUI implements ImageProcessingController, ActionListener {
-  private final ImageProcessingView view;
-  private ImageProcessingModel model;
-  public ImageProcessingControllerGUI(ImageProcessingModel model, ImageProcessingView view) throws IllegalArgumentException {
-    if (model == null || view == null) {
+  private final Feature feature;
+  public ImageProcessingControllerGUI(Feature feature) throws IllegalArgumentException {
+    if (feature == null) {
       throw new IllegalArgumentException("Null parameter given.");
     }
-    this.model = model;
-    this.view = view;
-    this.view.setFeature(this);
+    this.feature = feature;
   }
 
   @Override

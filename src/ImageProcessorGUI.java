@@ -6,14 +6,14 @@ import controller.ImageProcessingControllerImpl;
 import model.ImageProcessingModel;
 import model.ImageProcessingModelImpl;
 import model.ImageProcessingModelState;
+import view.ImageProcessingGUIView;
 import view.ImageProcessingView;
 import view.ImageProcessingGUIViewImpl;
 
 public class ImageProcessorGUI {
   public static void main(String[] args) {
     ImageProcessingModel model = new ImageProcessingModelImpl();
-    Feature feature = new FeatureImpl();
-    ImageProcessingView view = new ImageProcessingGUIViewImpl(feature);
-    ImageProcessingController controller = new ImageProcessingControllerGUI(model, view);
+    ImageProcessingGUIView view = new ImageProcessingGUIViewImpl();
+    Feature feature = new FeatureImpl(model, view);
   }
 }

@@ -26,35 +26,71 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   private JButton save;
   private JList<String> listOfStrings;
   private JList<Integer> listOfIntegers;
-  private JScrollPane scrollPane;
   private JPanel commandPanel;
   private JPanel redHistPanel;
   private JPanel greenHistPanel;
   private JPanel blueHistPanel;
   private JPanel intensityHistPanel;
+  private JPanel loadPanel;
+  private JPanel savePanel;
 
   String currentImage;
 
   //the custom panel on which the board will be drawn
   private JPanel boardPanel;
 
-  public ImageProcessingGUIViewImpl(Feature feature) {
+  public ImageProcessingGUIViewImpl() {
     super("Image Processor");
-    this.feature = feature;
     this.setSize(1000, 1000);
     this.setLayout(new GridLayout(2, 3));
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    textPane = new JTextPane();
-    textPane.setPreferredSize(new Dimension(500, 500));
-    textPane.setVisible(true);
-//    scrollPane = new JScrollPane(imagePanel);
-    this.add(textPane);
+    this.imagePanel = new ImagePanel();
+    this.add(imagePanel);
 
+    // Area for ioCommands
+    buttonPanel = new JPanel();
+    buttonPanel.setLayout(new FlowLayout());
+    this.add(buttonPanel, BorderLayout.SOUTH);
+
+    // Area for ioCommands
+    loadPanel = new JPanel();
+    loadPanel.setLayout(new FlowLayout());
+    this.add(buttonPanel);
     load = new JButton("load");
     load.setVisible(true);
-    this.add(load);
-    load.addActionListener((event) -> System.out.println("hi"));
+    loadPanel.add(load);
+    buttonPanel.add(loadPanel);
+
+    savePanel = new JPanel();
+    savePanel.setLayout(new FlowLayout());
+    this.add(buttonPanel);
+    save = new JButton("save");
+    save.setVisible(true);
+    savePanel.add(save);
+    buttonPanel.add(save);
+
+//    //file open
+//    JPanel fileopenPanel = new JPanel();
+//    fileopenPanel.setLayout(new FlowLayout());
+//    dialogBoxesPanel.add(fileopenPanel);
+//    JButton fileOpenButton = new JButton("Open a file");
+//    fileOpenButton.setActionCommand("Open file");
+//    fileOpenButton.addActionListener(this);
+//    fileopenPanel.add(fileOpenButton);
+//    fileOpenDisplay = new JLabel("File path will appear here");
+//    fileopenPanel.add(fileOpenDisplay);
+//
+//    //file save
+//    JPanel filesavePanel = new JPanel();
+//    filesavePanel.setLayout(new FlowLayout());
+//    dialogBoxesPanel.add(filesavePanel);
+//    JButton fileSaveButton = new JButton("Save a file");
+//    fileSaveButton.setActionCommand("Save file");
+//    fileSaveButton.addActionListener(this);
+//    filesavePanel.add(fileSaveButton);
+//    fileSaveDisplay = new JLabel("File path will appear here");
+//    filesavePanel.add(fileSaveDisplay);
 
 
 //    // Area for ImageProcessingCommands
@@ -88,86 +124,68 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 //    listOfIntegers.addListSelectionListener(this);
 //    selectionListPanel.add(new JScrollPane(listOfIntegers));
 //
-//    // Area for ioCommands
-//    buttonPanel = new JPanel();
-//    buttonPanel.setLayout(new FlowLayout());
-//    this.add(buttonPanel, BorderLayout.SOUTH);
 //
 //    //input textfield
 //    input = new JTextField(15);
 //    buttonPanel.add(input);
-//
-//    //file open
-//    JPanel fileopenPanel = new JPanel();
-//    fileopenPanel.setLayout(new FlowLayout());
-//    dialogBoxesPanel.add(fileopenPanel);
-//    JButton fileOpenButton = new JButton("Open a file");
-//    fileOpenButton.setActionCommand("Open file");
-//    fileOpenButton.addActionListener(this);
-//    fileopenPanel.add(fileOpenButton);
-//    fileOpenDisplay = new JLabel("File path will appear here");
-//    fileopenPanel.add(fileOpenDisplay);
-//
-//    //file save
-//    JPanel filesavePanel = new JPanel();
-//    filesavePanel.setLayout(new FlowLayout());
-//    dialogBoxesPanel.add(filesavePanel);
-//    JButton fileSaveButton = new JButton("Save a file");
-//    fileSaveButton.setActionCommand("Save file");
-//    fileSaveButton.addActionListener(this);
-//    filesavePanel.add(fileSaveButton);
-//    fileSaveDisplay = new JLabel("File path will appear here");
-//    filesavePanel.add(fileSaveDisplay);
 
     this.setVisible(true);
   }
-  @Override
-  public void refresh() {
-    this.repaint();
+
+  public void addActionListener() {
+    load.addActionListener((event) -> feature.load()); // this is what each of our buttons will have, just w corresponding methods
   }
-
-  @Override
-  public void setCommandButtonListener(ActionListener actionEvent) {
-    execute.addActionListener(actionEvent);
-  }
-
-  @Override
-  public void setListSelectionListener(ListSelectionListener actionEvent) {
-    listOfStrings.addListSelectionListener(actionEvent);
-  }
-
-  @Override
-  public void paint(Graphics g) {
-    paintRedHistogram(g);
-    paintGreenHistogram(g);
-    paintBlueHistogram(g);
-    paintIntensityHistogram(g);
-  }
-
-  private void paintRedHistogram(Graphics g) {
-  }
-
-  private void paintGreenHistogram(Graphics g) {
-
-  }
-
-  private void paintBlueHistogram(Graphics g) {
-
-  }
-
-  private void paintIntensityHistogram(Graphics g) {
-
-  }
-
+//  @Override
+//  public void refresh() {
+//    this.repaint();
+//  }
+//
+//  @Override
+//  public void setCommandButtonListener(ActionListener actionEvent) {
+//    execute.addActionListener(actionEvent);
+//  }
+//
+//  @Override
+//  public void setListSelectionListener(ListSelectionListener actionEvent) {
+//    listOfStrings.addListSelectionListener(actionEvent);
+//  }
+//
+//  @Override
+//  public void paint(Graphics g) {
+//    paintRedHistogram(g);
+//    paintGreenHistogram(g);
+//    paintBlueHistogram(g);
+//    paintIntensityHistogram(g);
+//  }
+//
+//  private void paintRedHistogram(Graphics g) {
+//  }
+//
+//  private void paintGreenHistogram(Graphics g) {
+//
+//  }
+//
+//  private void paintBlueHistogram(Graphics g) {
+//
+//  }
+//
+//  private void paintIntensityHistogram(Graphics g) {
+//
+//  }
+//
   @Override
   public void writeMessage(String message) throws IOException {
     return;
   }
+//  @Override
+//  public void showErrorMessage(String error) {
+//    JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+//
+//  }
+
+
   @Override
-  public void showErrorMessage(String error) {
-    JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
-
+  public void setFeature(Feature feature) {
+    this.feature = feature;
   }
-
-
 }
