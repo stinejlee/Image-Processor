@@ -3,16 +3,15 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
-
-import java.util.function.Consumer;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Feature;
-import controller.ImageProcessingCommand;
-import model.ImageProcessingModelState;
 
 public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessingGUIView {
 
@@ -21,8 +20,16 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   private JTextPane textPane;
   private JPanel buttonPanel;
   private JTextField input;
+
+  private JSpinner valueSpinner;
+  JComboBox<String> comboBox;
   private JButton load;
-  private JButton execute;
+  private JButton apply;
+
+  private String filePath;
+  private BufferedImage currentImage;
+
+  private JButton applyBrighten;
   private JButton save;
   private JList<String> listOfStrings;
   private JList<Integer> listOfIntegers;
@@ -34,7 +41,13 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   private JPanel loadPanel;
   private JPanel savePanel;
 
-  String currentImage;
+  private JPanel applyPanel;
+
+  private JPanel applyBrightenPanel;
+
+  private JPanel histPanel1;
+  private JPanel histPanel2;
+
 
   //the custom panel on which the board will be drawn
   private JPanel boardPanel;
@@ -45,134 +58,135 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     this.setLayout(new GridLayout(2, 3));
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    this.imagePanel = new ImagePanel();
+    this.imagePanel = new ImagePanel(currentImage);
     this.add(imagePanel);
 
     // Area for ioCommands
     buttonPanel = new JPanel();
     buttonPanel.setLayout(new FlowLayout());
-    this.add(buttonPanel, BorderLayout.SOUTH);
+    this.add(buttonPanel);
+
+    // Area for first two histograms
+    this.histPanel1 = new JPanel();
+    this.histPanel1.setLayout(new GridLayout(2, 1,  10, 10));
+    this.add(histPanel1);
+
+    // Area for other two histograms
+    this.histPanel2 = new JPanel();
+    this.histPanel2.setLayout(new GridLayout(2, 1,  10, 10));
+    this.add(histPanel2);
 
     // Area for ioCommands
     loadPanel = new JPanel();
     loadPanel.setLayout(new FlowLayout());
     this.add(buttonPanel);
-    load = new JButton("load");
+    load = new JButton("Load");
     load.setVisible(true);
     loadPanel.add(load);
     buttonPanel.add(loadPanel);
 
     savePanel = new JPanel();
     savePanel.setLayout(new FlowLayout());
-    this.add(buttonPanel);
-    save = new JButton("save");
+    save = new JButton("Save");
     save.setVisible(true);
     savePanel.add(save);
-    buttonPanel.add(save);
+    buttonPanel.add(savePanel);
 
-//    //file open
-//    JPanel fileopenPanel = new JPanel();
-//    fileopenPanel.setLayout(new FlowLayout());
-//    dialogBoxesPanel.add(fileopenPanel);
-//    JButton fileOpenButton = new JButton("Open a file");
-//    fileOpenButton.setActionCommand("Open file");
-//    fileOpenButton.addActionListener(this);
-//    fileopenPanel.add(fileOpenButton);
-//    fileOpenDisplay = new JLabel("File path will appear here");
-//    fileopenPanel.add(fileOpenDisplay);
-//
-//    //file save
-//    JPanel filesavePanel = new JPanel();
-//    filesavePanel.setLayout(new FlowLayout());
-//    dialogBoxesPanel.add(filesavePanel);
-//    JButton fileSaveButton = new JButton("Save a file");
-//    fileSaveButton.setActionCommand("Save file");
-//    fileSaveButton.addActionListener(this);
-//    filesavePanel.add(fileSaveButton);
-//    fileSaveDisplay = new JLabel("File path will appear here");
-//    filesavePanel.add(fileSaveDisplay);
+    JPanel comboBoxPanel = new JPanel();
+    buttonPanel.add(comboBoxPanel);
+    comboBox = new JComboBox<>();
+    JLabel comboBoxDisplay = new JLabel("Select filter");
+    comboBoxPanel.add(comboBoxDisplay);
+    String[] filters = {"Blur", "Sharpen", "Red Greyscale", "Green Greyscale",
+            "Blue Greyscale", "Intensity Greyscale", "Value Greyscale",
+            "Luma Greyscale", "Sepia", "Horizontal Flip", "Vertical Flip"};
 
+    for (int i = 0; i < filters.length; i++) {
+      comboBox.addItem(filters[i]);
+    }
 
-//    // Area for ImageProcessingCommands
-//    commandPanel = new JPanel();
-//    commandPanel.setLayout(new FlowLayout());
-//    this.add(commandPanel, BorderLayout.SOUTH);
-//
-//    JPanel selectionListPanel = new JPanel();
-//    selectionListPanel.setBorder(BorderFactory.createTitledBorder("Selection lists"));
-//    selectionListPanel.setLayout(new BoxLayout(selectionListPanel, BoxLayout.X_AXIS));
-//    commandPanel.add(selectionListPanel);
-//
-//    DefaultListModel<String> dataForListOfStrings = new DefaultListModel<>();
-//    dataForListOfStrings.addElement("Apple");
-//    dataForListOfStrings.addElement("Bear");
-//    dataForListOfStrings.addElement("Cave");
-//    dataForListOfStrings.addElement("Decorate");
-//    dataForListOfStrings.addElement("Exciting");
-//    dataForListOfStrings.addElement("Flicker");
-//    listOfStrings = new JList<>(dataForListOfStrings);
-//    listOfStrings.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//    listOfStrings.addListSelectionListener(this);
-//    selectionListPanel.add(listOfStrings);
-//
-//
-//    DefaultListModel<Integer> dataForListOfIntegers = new DefaultListModel<>();
-//    for (int i = 0; i < 1000; i++)
-//      dataForListOfIntegers.addElement(i);
-//    listOfIntegers = new JList<>(dataForListOfIntegers);
-//    listOfIntegers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//    listOfIntegers.addListSelectionListener(this);
-//    selectionListPanel.add(new JScrollPane(listOfIntegers));
-//
-//
-//    //input textfield
-//    input = new JTextField(15);
-//    buttonPanel.add(input);
+    comboBoxPanel.add(comboBox);
+    buttonPanel.add(comboBoxPanel);
 
+    applyPanel = new JPanel();
+    applyPanel.setLayout(new FlowLayout());
+    apply = new JButton("Apply");
+    apply.setVisible(true);
+    applyPanel.add(apply);
+    buttonPanel.add(applyPanel);
+
+    int current = 0;
+    int min = -255;
+    int max = 255;
+    int step = 1;
+
+    JPanel spinnerPanel = new JPanel();
+    JLabel spinnerLabel = new JLabel("Brighten by:");
+    SpinnerNumberModel valueModel = new SpinnerNumberModel(current, min, max, step);
+    valueSpinner = new JSpinner(valueModel);
+    spinnerPanel.add(spinnerLabel);
+    spinnerPanel.add(valueSpinner);
+    buttonPanel.add(spinnerPanel);
+
+    applyBrightenPanel = new JPanel();
+    applyBrightenPanel.setLayout(new FlowLayout());
+    applyBrighten = new JButton("Apply");
+    applyBrighten.setVisible(true);
+    applyBrightenPanel.add(applyBrighten);
+    buttonPanel.add(applyBrightenPanel);
+
+    this.addActionListener();
     this.setVisible(true);
   }
 
   public void addActionListener() {
-    load.addActionListener((event) -> feature.load()); // this is what each of our buttons will have, just w corresponding methods
+    load.addActionListener((event) -> feature.load());
+    save.addActionListener((event) -> feature.save());
+    apply.addActionListener((event) -> feature.apply((String) comboBox.getSelectedItem(), (int) valueSpinner.getValue()));
+    applyBrighten.addActionListener((event) -> feature.apply("Brighten", (int) valueSpinner.getValue()));
   }
-//  @Override
-//  public void refresh() {
-//    this.repaint();
-//  }
-//
-//  @Override
-//  public void setCommandButtonListener(ActionListener actionEvent) {
-//    execute.addActionListener(actionEvent);
-//  }
-//
-//  @Override
-//  public void setListSelectionListener(ListSelectionListener actionEvent) {
-//    listOfStrings.addListSelectionListener(actionEvent);
-//  }
-//
-//  @Override
-//  public void paint(Graphics g) {
-//    paintRedHistogram(g);
-//    paintGreenHistogram(g);
-//    paintBlueHistogram(g);
-//    paintIntensityHistogram(g);
-//  }
-//
-//  private void paintRedHistogram(Graphics g) {
-//  }
-//
-//  private void paintGreenHistogram(Graphics g) {
-//
-//  }
-//
-//  private void paintBlueHistogram(Graphics g) {
-//
-//  }
-//
-//  private void paintIntensityHistogram(Graphics g) {
-//
-//  }
-//
+
+  public String loadImage() {
+    final JFileChooser fchooser = new JFileChooser(".");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Images", "jpg", "ppm", "png", "bmp");
+    fchooser.setFileFilter(filter);
+    int retvalue = fchooser.showOpenDialog(this);
+    if (retvalue == JFileChooser.APPROVE_OPTION) {
+      File f = fchooser.getSelectedFile();
+      this.filePath = f.getAbsolutePath();
+    }
+    return this.filePath;
+  }
+
+  public void setCurrentImage(BufferedImage image) {
+    this.currentImage = image;
+
+  }
+
+  public void resetImagePanel() {
+    System.out.println("testing");
+    this.imagePanel.removeAll();
+    this.imagePanel.add(new ImagePanel(currentImage));
+    this.setVisible(false);
+    this.repaint();
+    this.setVisible(true);
+
+  }
+
+  @Override
+  public String saveImage() {
+    final JFileChooser fchooser = new JFileChooser(".");
+    int retvalue = fchooser.showSaveDialog(this);
+    if (retvalue == JFileChooser.APPROVE_OPTION) {
+      File f = fchooser.getSelectedFile();
+      return f.getAbsolutePath();
+    }
+    else {
+      throw new IllegalStateException("Something went wrong");
+    }
+  }
+
   @Override
   public void writeMessage(String message) throws IOException {
     return;

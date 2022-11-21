@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -12,7 +13,9 @@ public class ImagePanel extends JPanel {
   private JScrollPane scrollPane;
   private JLabel imageLabel;
 
-  public ImagePanel() {
+  private BufferedImage currImage;
+
+  public ImagePanel(BufferedImage image) {
     super();
 
     this.setBackground(Color.lightGray);
@@ -21,9 +24,11 @@ public class ImagePanel extends JPanel {
     this.setVisible(true);
 
     this.imageLabel = new JLabel();
+    if (image != null) {
+      imageLabel.setIcon(new ImageIcon(image));
+    }
     this.scrollPane = new JScrollPane(imageLabel);
     this.scrollPane.setBackground(Color.DARK_GRAY);
-    imageLabel.setIcon(new ImageIcon("res/sailor.jpg")); // ignore this image i needed to make sure it scrolled
     this.scrollPane.setPreferredSize(new Dimension(100, 100));
     this.add(scrollPane);
 
