@@ -9,6 +9,12 @@ import model.ImageProcessingModel;
  */
 public abstract class AColorFilter extends AFilter {
 
+  /**
+   * The constructor for an AColorFilter.
+   * @param imageName the name of the image the filter is being applied to.
+   * @param destImageName the name of the new, filtered image.
+   * @throws IllegalArgumentException if either inputs are null.
+   */
   public AColorFilter(String imageName, String destImageName) throws IllegalArgumentException {
     super(imageName, destImageName);
     this.values = new double[3][3];

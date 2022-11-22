@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class ImageProcessingModelImpl implements ImageProcessingModel {
 
-  Map<String, Image> images;
+  private Map<String, Image> images;
 
   /**
    * Default constructor for the ImageProcessingModelImpl class.

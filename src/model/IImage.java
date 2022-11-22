@@ -8,14 +8,14 @@ public interface IImage {
   /**
    * An enum that represents the type of greyscale filter being applied.
    */
-  public enum GreyscaleType {
+  enum GreyscaleType {
     Red, Blue, Green, Value, Luma, Intensity
   }
 
   /**
    * An enum that represents the type of flip filter being applies.
    */
-  public enum FlipType {
+  enum FlipType {
     Horizontal, Vertical
   }
 
