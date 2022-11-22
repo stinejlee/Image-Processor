@@ -68,6 +68,7 @@ public class FeatureImpl implements Feature {
 
     this.view.setCurrentImage(pic);
     this.view.resetImagePanel();
+    this.view.resetHistPanels();
   }
 
   @Override

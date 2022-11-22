@@ -17,4 +17,6 @@ public interface ImageProcessingGUIView extends ImageProcessingView {
   String saveImage();
 
   void resetImagePanel();
+
+  void resetHistPanels();
 }
