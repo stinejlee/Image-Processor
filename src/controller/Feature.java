@@ -7,7 +7,7 @@ package controller;
 public interface Feature {
 
   /**
-   * Gets called by the view when the laod image is clicked, which loads an image to the model
+   * Gets called by the view when the load image is clicked, which loads an image to the model
    * based on a file selected by the user in the view.
    */
   void load();

@@ -42,7 +42,7 @@ For this assignment, we created a few new interface and classes to work with the
     - This is implemented by the FeatureImpl class, which takes in a model and a GUI view and
       manages the interactions between them.
     - These were added because the old controller would not work with our new GUI.
-- The ImageProcessingGUIView interface represents the GUI view of the image processing program, and
+- The ImageProcessingGUIViewTest interface represents the GUI view of the image processing program, and
   it extends the ImageProcessingView interface.
     - This is implemented by the ImageProcessingGUIViewImpl class, which uses Java Swing to display
       an interactive GUI that displays an image and all the features of the image processor.

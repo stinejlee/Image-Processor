@@ -188,7 +188,6 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 
   @Override
   public void resetImagePanel() {
-    System.out.println("testing");
     this.imagePanel.removeAll();
     JLabel newLabel = new JLabel();
     newLabel.setIcon(new ImageIcon(currentImage));
@@ -203,7 +202,6 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 
   @Override
   public void resetHistPanels() {
-    System.out.println("2testing");
     this.histPanel1.removeAll();
     this.histPanel2.removeAll();
 

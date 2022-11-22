@@ -50,7 +50,6 @@ public class FeatureImpl implements Feature {
 
   @Override
   public void load() {
-    System.out.println("test");
     String filepath = this.view.loadImage();
 
     Image image;
