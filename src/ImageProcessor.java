@@ -5,14 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-import controller.Feature;
-import controller.FeatureImpl;
 import controller.ImageProcessingController;
 import controller.ImageProcessingControllerImpl;
 import model.ImageProcessingModel;
 import model.ImageProcessingModelImpl;
-import view.ImageProcessingGUIView;
-import view.ImageProcessingGUIViewImpl;
 import view.ImageProcessingTextView;
 import view.ImageProcessingView;
 
@@ -26,20 +22,12 @@ public class ImageProcessor {
    * @param args represents the user's inputs
    */
   public static void main(String[] args) {
-    if (args.length == 0) {
-      ImageProcessingModel model = new ImageProcessingModelImpl();
-      ImageProcessingGUIView view = new ImageProcessingGUIViewImpl();
-      Feature feature = new FeatureImpl(model, view);
-    }
-    else {
-      ImageProcessingModel model = new ImageProcessingModelImpl();
-      ImageProcessingView view = new ImageProcessingTextView(model);
-      if (args[0].equals("-text")) {
-        Readable rd = new InputStreamReader(System.in);
-        ImageProcessingController controller = new ImageProcessingControllerImpl(model, view, rd);
-        controller.processImages();
-      }
-      else if (args[0].equals("-file")) {
+    ImageProcessingModel model = new ImageProcessingModelImpl();
+    ImageProcessingView view = new ImageProcessingTextView(model);
+    if (args.length != 0) {
+      if (!args[0].equals("-file")) {
+        System.out.println("Failed to read command.");
+      } else {
         try {
           Readable rd =
                   new InputStreamReader(new ByteArrayInputStream(readFile(args[1]).getBytes()));
@@ -49,6 +37,10 @@ public class ImageProcessor {
           System.out.println("Failed to read file.");
         }
       }
+    } else {
+      Readable rd = new InputStreamReader(System.in);
+      ImageProcessingController controller = new ImageProcessingControllerImpl(model, view, rd);
+      controller.processImages();
     }
   }
 

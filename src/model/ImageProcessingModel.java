@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Represents the model for the image processor that contains all the Images in a map.
+ * Represents the model for the image processor.
  */
 public interface ImageProcessingModel extends ImageProcessingModelState {
 

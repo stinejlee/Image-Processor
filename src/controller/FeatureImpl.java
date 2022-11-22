@@ -23,23 +23,12 @@ import view.ImageProcessingGUIView;
 
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
-/**
- * An implementation of the Feature interface that interacts with a ImageProcessingGUIView and
- * an ImageProcessingModel.
- */
 public class FeatureImpl implements Feature {
 
   private ImageProcessingModel model;
   private ImageProcessingGUIView view;
 
-  /**
-   * The constructor for the FeatureImpl class that takes in the model and the view, and sets the
-   * view's feature as this.
-   * @param model the image processing model.
-   * @param view the GUI view of the image processor.
-   */
-  public FeatureImpl(ImageProcessingModel model, ImageProcessingGUIView view)
-          throws IllegalArgumentException {
+  public FeatureImpl(ImageProcessingModel model, ImageProcessingGUIView view) {
     if (model == null || view == null) {
       throw new IllegalArgumentException("Null arguments.");
     }
@@ -47,7 +36,6 @@ public class FeatureImpl implements Feature {
     this.view = view;
     this.view.setFeature(this);
   }
-
   @Override
   public void load() {
     System.out.println("test");
@@ -65,10 +53,6 @@ public class FeatureImpl implements Feature {
     this.updateViewImage(image);
   }
 
-  /**
-   * Updates the current image in the view.
-   * @param image the new image that should appear in the view.
-   */
   private void updateViewImage(IImage image) {
     BufferedImage pic = new BufferedImage(image.getWidth(), image.getHeight(), TYPE_INT_RGB);
 
