@@ -2,9 +2,6 @@ package view;
 
 import java.io.IOException;
 
-import controller.Feature;
-import controller.ImageProcessingControllerGUI;
-
 /**
  * Represents a view for the image processor.
  */

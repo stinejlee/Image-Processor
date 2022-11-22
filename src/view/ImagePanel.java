@@ -1,18 +1,28 @@
 package view;
 
-import java.awt.*;
+import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
 
-import model.IImage;
-import model.Image;
-import model.ImageProcessingModelState;
-
+/**
+ * Represents a Panel that displays the current Image and allows the user to scroll through
+ * the image if it is too large.
+ */
 public class ImagePanel extends JPanel {
   private JScrollPane scrollPane;
   private JLabel imageLabel;
 
+  /**
+   * The constructor for the ImagePanel class that takes in the view's current image.
+   * @param image the current image in the view that needs to be displayed.
+   */
   public ImagePanel(BufferedImage image) {
     super();
 
@@ -29,6 +39,5 @@ public class ImagePanel extends JPanel {
     this.scrollPane.setBackground(Color.DARK_GRAY);
     this.scrollPane.setPreferredSize(new Dimension(100, 100));
     this.add(scrollPane);
-
   }
 }
