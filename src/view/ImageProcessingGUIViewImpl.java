@@ -31,8 +31,6 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 
   private JButton applyBrighten;
   private JButton save;
-  private JList<String> listOfStrings;
-  private JList<Integer> listOfIntegers;
   private JPanel commandPanel;
   private JPanel redHistPanel;
   private JPanel greenHistPanel;
@@ -62,10 +60,10 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     this.add(imagePanel);
 
     // Area for ioCommands
-    buttonPanel = new JPanel();
-    buttonPanel.setPreferredSize(new Dimension(200, 300));
-    buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
-    buttonPanel.setLayout(new BorderLayout());
+    this.buttonPanel = new JPanel();
+    this.buttonPanel.setPreferredSize(new Dimension(200, 300));
+    this.buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
+    this.buttonPanel.setLayout(new BorderLayout());
     this.add(buttonPanel);
 
     // Area for first two histograms
@@ -73,29 +71,32 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     this.histPanel1.setLayout(new GridLayout(2, 1,  10, 10));
     this.add(histPanel1);
 
+    this.redHistPanel = new RedHistogramPanel(currentImage);
+    this.histPanel1.add(redHistPanel);
+
     // Area for other two histograms
     this.histPanel2 = new JPanel();
     this.histPanel2.setLayout(new GridLayout(2, 1,  10, 10));
     this.add(histPanel2);
 
     // Area for ioCommands
-    loadPanel = new JPanel();
-    loadPanel.setLayout(new FlowLayout());
-    load = new JButton("Load");
-    load.setVisible(true);
-    loadPanel.add(load);
-    buttonPanel.add(loadPanel, BorderLayout.WEST);
+    this.loadPanel = new JPanel();
+    this.loadPanel.setLayout(new FlowLayout());
+    this.load = new JButton("Load");
+    this.load.setVisible(true);
+    this.loadPanel.add(load);
+    this.buttonPanel.add(loadPanel, BorderLayout.WEST);
 
-    savePanel = new JPanel();
-    savePanel.setLayout(new FlowLayout());
-    save = new JButton("Save");
-    save.setVisible(true);
-    savePanel.add(save);
-    buttonPanel.add(savePanel, BorderLayout.EAST);
+    this.savePanel = new JPanel();
+    this.savePanel.setLayout(new FlowLayout());
+    this.save = new JButton("Save");
+    this.save.setVisible(true);
+    this.savePanel.add(save);
+    this.buttonPanel.add(savePanel, BorderLayout.EAST);
 
     JPanel comboBoxPanel = new JPanel();
-    buttonPanel.add(comboBoxPanel);
-    comboBox = new JComboBox<>();
+    this.buttonPanel.add(comboBoxPanel);
+    this.comboBox = new JComboBox<>();
     JLabel comboBoxDisplay = new JLabel("Select filter");
     comboBoxPanel.add(comboBoxDisplay);
     String[] filters = {"Blur", "Sharpen", "Red Greyscale", "Green Greyscale",
@@ -103,18 +104,18 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
             "Luma Greyscale", "Sepia", "Horizontal Flip", "Vertical Flip"};
 
     for (int i = 0; i < filters.length; i++) {
-      comboBox.addItem(filters[i]);
+      this.comboBox.addItem(filters[i]);
     }
 
     comboBoxPanel.add(comboBox);
-    buttonPanel.add(comboBoxPanel, BorderLayout.NORTH);
+    this.buttonPanel.add(comboBoxPanel, BorderLayout.NORTH);
 
-    applyPanel = new JPanel();
-    applyPanel.setLayout(new FlowLayout());
-    apply = new JButton("Apply");
-    apply.setVisible(true);
-    applyPanel.add(apply);
-    buttonPanel.add(applyPanel, BorderLayout.CENTER);
+    this.applyPanel = new JPanel();
+    this.applyPanel.setLayout(new FlowLayout());
+    this.apply = new JButton("Apply");
+    this.apply.setVisible(true);
+    this.applyPanel.add(apply);
+    this.buttonPanel.add(applyPanel, BorderLayout.CENTER);
 
     int current = 0;
     int min = -255;
@@ -124,27 +125,27 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     JPanel spinnerPanel = new JPanel();
     JLabel spinnerLabel = new JLabel("Brighten by:");
     SpinnerNumberModel valueModel = new SpinnerNumberModel(current, min, max, step);
-    valueSpinner = new JSpinner(valueModel);
+    this.valueSpinner = new JSpinner(valueModel);
     spinnerPanel.add(spinnerLabel);
     spinnerPanel.add(valueSpinner);
 
-    applyBrightenPanel = new JPanel();
-    applyBrightenPanel.setLayout(new FlowLayout());
-    applyBrighten = new JButton("Apply");
-    applyBrighten.setVisible(true);
+    this.applyBrightenPanel = new JPanel();
+    this.applyBrightenPanel.setLayout(new FlowLayout());
+    this.applyBrighten = new JButton("Apply");
+    this.applyBrighten.setVisible(true);
     spinnerPanel.add(applyBrighten);
 
-    buttonPanel.add(spinnerPanel, BorderLayout.SOUTH);
+    this.buttonPanel.add(spinnerPanel, BorderLayout.SOUTH);
 
     this.addActionListener();
     this.setVisible(true);
   }
 
   public void addActionListener() {
-    load.addActionListener((event) -> feature.load());
-    save.addActionListener((event) -> feature.save());
-    apply.addActionListener((event) -> feature.apply((String) comboBox.getSelectedItem(), (int) valueSpinner.getValue()));
-    applyBrighten.addActionListener((event) -> feature.apply("Brighten", (int) valueSpinner.getValue()));
+    this.load.addActionListener((event) -> feature.load());
+    this.save.addActionListener((event) -> feature.save());
+    this.apply.addActionListener((event) -> feature.apply((String) comboBox.getSelectedItem(), (int) valueSpinner.getValue()));
+    this.applyBrighten.addActionListener((event) -> feature.apply("Brighten", (int) valueSpinner.getValue()));
   }
 
   public String loadImage() {
@@ -162,7 +163,6 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
 
   public void setCurrentImage(BufferedImage image) {
     this.currentImage = image;
-
   }
 
   public void resetImagePanel() {
@@ -174,6 +174,16 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     newScrollPane.setBackground(Color.DARK_GRAY);
     newScrollPane.setPreferredSize(new Dimension(100, 100));
     this.imagePanel.add(newScrollPane);
+    this.setVisible(false);
+    this.repaint();
+    this.setVisible(true);
+  }
+
+  public void resetHistPanels() {
+    System.out.println("2testing");
+    this.histPanel1.removeAll();
+    JPanel newRedHistPanel = new RedHistogramPanel(currentImage);
+    this.histPanel1.add(newRedHistPanel);
     this.setVisible(false);
     this.repaint();
     this.setVisible(true);

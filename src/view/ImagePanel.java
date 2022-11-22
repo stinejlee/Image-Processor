@@ -13,8 +13,6 @@ public class ImagePanel extends JPanel {
   private JScrollPane scrollPane;
   private JLabel imageLabel;
 
-  private BufferedImage currImage;
-
   public ImagePanel(BufferedImage image) {
     super();
 
