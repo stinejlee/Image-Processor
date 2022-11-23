@@ -16,8 +16,6 @@ import javax.swing.BorderFactory;
  * the image if it is too large.
  */
 public class ImagePanel extends JPanel {
-  private JScrollPane scrollPane;
-  private JLabel imageLabel;
 
   /**
    * The constructor for the ImagePanel class that takes in the view's current image.
@@ -31,13 +29,13 @@ public class ImagePanel extends JPanel {
     this.setLayout(new GridLayout(1,0, 10, 10));
     this.setVisible(true);
 
-    this.imageLabel = new JLabel();
+    JLabel imageLabel = new JLabel();
     if (image != null) {
       imageLabel.setIcon(new ImageIcon(image));
     }
-    this.scrollPane = new JScrollPane(imageLabel);
-    this.scrollPane.setBackground(Color.DARK_GRAY);
-    this.scrollPane.setPreferredSize(new Dimension(100, 100));
+    JScrollPane scrollPane = new JScrollPane(imageLabel);
+    scrollPane.setBackground(Color.DARK_GRAY);
+    scrollPane.setPreferredSize(new Dimension(100, 100));
     this.add(scrollPane);
   }
 }

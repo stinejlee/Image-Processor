@@ -1,10 +1,5 @@
 package view;
-
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-
-import javax.swing.event.ListSelectionListener;
-
 import controller.Feature;
 
 /**
@@ -14,7 +9,7 @@ public interface ImageProcessingGUIView extends ImageProcessingView {
   /**
    * Sets this ImageProcessingGuiView's feature as the given feature. This is called in the
    * feature's constructor.
-   * @param feature
+   * @param feature the controller that this view is connected to.
    */
   void setFeature(Feature feature);
 

@@ -20,16 +20,6 @@ import view.ImageProcessingView;
  */
 public class ImageProcessingControllerTest {
 
-  @Test
-  public void loadFilterSaveBigImageTest() {
-    ImageProcessingModel model = new ImageProcessingModelImpl();
-    Readable input = new StringReader("-load res/big.ppm big\n" +
-            "-red-component big redBig\n" +
-            "-save res/redBig.ppm redBig");
-    ImageProcessingView view = new ImageProcessingTextView(model);
-    ImageProcessingController controller = new ImageProcessingControllerImpl(model, view, input);
-    controller.processImages();
-  }
   // Tests the processImages method on a valid load command
   @Test
   public void processImagesLoadTest() {

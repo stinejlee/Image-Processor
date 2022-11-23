@@ -29,7 +29,6 @@ import controller.Feature;
 public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessingGUIView {
   private Feature feature;
   private JPanel imagePanel;
-  private JPanel buttonPanel;
   private JSpinner valueSpinner;
   JComboBox<String> comboBox;
   private JButton load;
@@ -38,14 +37,6 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   private BufferedImage currentImage;
   private JButton applyBrighten;
   private JButton save;
-  private JPanel redHistPanel;
-  private JPanel greenHistPanel;
-  private JPanel blueHistPanel;
-  private JPanel intensityHistPanel;
-  private JPanel loadPanel;
-  private JPanel savePanel;
-  private JPanel applyPanel;
-  private JPanel applyBrightenPanel;
   private JPanel histPanel1;
   private JPanel histPanel2;
 
@@ -63,10 +54,10 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     this.add(imagePanel);
 
     // Area for ioCommands
-    this.buttonPanel = new JPanel();
-    this.buttonPanel.setPreferredSize(new Dimension(200, 300));
-    this.buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
-    this.buttonPanel.setLayout(new BorderLayout());
+    JPanel buttonPanel = new JPanel();
+    buttonPanel.setPreferredSize(new Dimension(200, 300));
+    buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
+    buttonPanel.setLayout(new BorderLayout());
     this.add(buttonPanel);
 
     // Area for first two histograms
@@ -74,8 +65,8 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     this.histPanel1.setLayout(new GridLayout(2, 1,  10, 10));
     this.add(histPanel1);
 
-    this.redHistPanel = new HistogramPanel("Red");
-    this.greenHistPanel = new HistogramPanel("Green");
+    JPanel redHistPanel = new HistogramPanel("Red");
+    JPanel greenHistPanel = new HistogramPanel("Green");
     this.histPanel1.add(redHistPanel);
     this.histPanel1.add(greenHistPanel);
 
@@ -84,50 +75,50 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     this.histPanel2.setLayout(new GridLayout(2, 1,  10, 10));
     this.add(histPanel2);
 
-    this.blueHistPanel = new HistogramPanel("Blue");
-    this.intensityHistPanel = new HistogramPanel("Green");
+    JPanel blueHistPanel = new HistogramPanel("Blue");
+    JPanel intensityHistPanel = new HistogramPanel("Green");
     this.histPanel2.add(blueHistPanel);
     this.histPanel2.add(intensityHistPanel);
 
     // Area for ioCommands
-    this.loadPanel = new JPanel();
-    this.loadPanel.setLayout(new FlowLayout());
+    JPanel loadPanel = new JPanel();
+    loadPanel.setLayout(new FlowLayout());
     this.load = new JButton("Load");
     this.load.setVisible(true);
-    this.loadPanel.add(load);
-    this.buttonPanel.add(loadPanel, BorderLayout.WEST);
+    loadPanel.add(load);
+    buttonPanel.add(loadPanel, BorderLayout.WEST);
 
-    this.savePanel = new JPanel();
-    this.savePanel.setLayout(new FlowLayout());
+    JPanel savePanel = new JPanel();
+    savePanel.setLayout(new FlowLayout());
     this.save = new JButton("Save");
     this.save.setVisible(true);
-    this.savePanel.add(save);
-    this.buttonPanel.add(savePanel, BorderLayout.EAST);
+    savePanel.add(save);
+    buttonPanel.add(savePanel, BorderLayout.EAST);
 
     // Combo box consisting of all the image processing options.
     JPanel comboBoxPanel = new JPanel();
-    this.buttonPanel.add(comboBoxPanel);
+    buttonPanel.add(comboBoxPanel);
     this.comboBox = new JComboBox<>();
     JLabel comboBoxDisplay = new JLabel("Select filter");
     comboBoxPanel.add(comboBoxDisplay);
     String[] filters = {"Blur", "Sharpen", "Red Greyscale", "Green Greyscale",
-            "Blue Greyscale", "Intensity Greyscale", "Value Greyscale",
-            "Luma Greyscale", "Sepia", "Horizontal Flip", "Vertical Flip"};
+      "Blue Greyscale", "Intensity Greyscale", "Value Greyscale",
+      "Luma Greyscale", "Sepia", "Horizontal Flip", "Vertical Flip"};
 
     for (int i = 0; i < filters.length; i++) {
       this.comboBox.addItem(filters[i]);
     }
 
     comboBoxPanel.add(comboBox);
-    this.buttonPanel.add(comboBoxPanel, BorderLayout.NORTH);
+    buttonPanel.add(comboBoxPanel, BorderLayout.NORTH);
 
     // Apply button panel
-    this.applyPanel = new JPanel();
-    this.applyPanel.setLayout(new FlowLayout());
+    JPanel applyPanel = new JPanel();
+    applyPanel.setLayout(new FlowLayout());
     this.apply = new JButton("Apply");
     this.apply.setVisible(true);
-    this.applyPanel.add(apply);
-    this.buttonPanel.add(applyPanel, BorderLayout.CENTER);
+    applyPanel.add(apply);
+    buttonPanel.add(applyPanel, BorderLayout.CENTER);
 
     // Number value spinner for brighten/darken
     int current = 0;
@@ -142,13 +133,13 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
     spinnerPanel.add(spinnerLabel);
     spinnerPanel.add(valueSpinner);
 
-    this.applyBrightenPanel = new JPanel();
-    this.applyBrightenPanel.setLayout(new FlowLayout());
+    JPanel applyBrightenPanel = new JPanel();
+    applyBrightenPanel.setLayout(new FlowLayout());
     this.applyBrighten = new JButton("Apply");
     this.applyBrighten.setVisible(true);
     spinnerPanel.add(applyBrighten);
 
-    this.buttonPanel.add(spinnerPanel, BorderLayout.SOUTH);
+    buttonPanel.add(spinnerPanel, BorderLayout.SOUTH);
 
     this.addActionListener();
     this.setVisible(true);
@@ -242,10 +233,14 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
         maxPercentage = maxPercent;
       }
     }
-    JPanel newRedHistPanel = new HistogramPanel(redPercentages, Color.RED, maxPercentage, "Red");
-    JPanel newGreenHistPanel = new HistogramPanel(greenPercentages, Color.GREEN, maxPercentage, "Green");
-    JPanel newBlueHistPanel = new HistogramPanel(bluePercentages, Color.BLUE, maxPercentage, "Blue");
-    JPanel newIntHistPanel = new HistogramPanel(intPercentages, Color.GRAY, maxPercentage, "Intensity");
+    JPanel newRedHistPanel =
+            new HistogramPanel(redPercentages, Color.RED, maxPercentage, "Red");
+    JPanel newGreenHistPanel =
+            new HistogramPanel(greenPercentages, Color.GREEN, maxPercentage, "Green");
+    JPanel newBlueHistPanel =
+            new HistogramPanel(bluePercentages, Color.BLUE, maxPercentage, "Blue");
+    JPanel newIntHistPanel =
+            new HistogramPanel(intPercentages, Color.GRAY, maxPercentage, "Intensity");
     this.histPanel1.add(newRedHistPanel);
     this.histPanel1.add(newGreenHistPanel);
     this.histPanel2.add(newBlueHistPanel);
@@ -273,12 +268,6 @@ public class ImageProcessingGUIViewImpl extends JFrame implements ImageProcessin
   public void writeMessage(String message) throws IOException {
     return;
   }
-//  @Override
-//  public void showErrorMessage(String error) {
-//    JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
-//
-//  }
-
 
   @Override
   public void setFeature(Feature feature) {

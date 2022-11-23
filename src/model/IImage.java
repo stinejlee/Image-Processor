@@ -3,6 +3,9 @@ package model;
 import controller.IFilter;
 import controller.filters.AColorFilter;
 
+/**
+ * An interface that represents an Image.
+ */
 public interface IImage {
 
   /**
@@ -30,6 +33,7 @@ public interface IImage {
    * @return the width of this image.
    */
   int getWidth();
+
   @Override
   String toString();
 

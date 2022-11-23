@@ -1,6 +1,6 @@
 package controller;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import controller.filters.BlueGreyscaleFilter;

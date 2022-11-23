@@ -2,7 +2,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import controller.Feature;
-import model.ImageProcessingModel;
 import view.ImageProcessingGUIView;
 
 /**
@@ -57,6 +56,6 @@ public class MockGUIView implements ImageProcessingGUIView {
 
   @Override
   public void writeMessage(String message) throws IOException {
-
+    return;
   }
 }
